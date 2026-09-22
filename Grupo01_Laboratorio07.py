@@ -125,4 +125,10 @@ print(mean_rating_ordenado.head())
 
 # PUNTO 4
 
+# Coeficiente de correlación de Pearson entre:
+# mean_rating y n_goal_general_fitness
 print(df_usuario["mean_rating"].corr(df_usuario["n_goal_general_fitness"]))
+# mean_rating y n_equipment
+print(df_usuario["mean_rating"].corr(df_usuario["n_equipment"]))
+# n_equipment y n_goal_general_fitness
+print(df_usuario["n_equipment"].corr(df_usuario["n_goal_general_fitness"]))
