@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Carga de datos
 df = pd.read_csv("smart_workout_raw_dataset.csv")
@@ -92,3 +93,32 @@ df_usuario["share_endurance"] = (
 print(df_usuario["user_id"].nunique())
 print(df_usuario.shape[0])
 print(df_usuario["user_id"].duplicated().sum())
+print(df_usuario.info())
+
+
+# PUNTO 3
+
+#Se crea el diagrama de caja y bigotes para la variable n_bodyparts.
+df_usuario["n_bodyparts"].plot(kind="box")
+plt.show()
+
+# Se crea un dataframe con solo 2 columnas, correspondientes a user_id y n_bodyparts.
+df_usuario_n_bodyparts = df_usuario[['user_id', 'n_bodyparts']]
+
+# Se ordenan los valores según la columna n_bodyparts para identificar los usuarios
+# correspondientes a los valores atípicos superiores e inferiores.
+n_bodyparts_ordenado = df_usuario_n_bodyparts.sort_values(by='n_bodyparts', ascending=True)
+print(n_bodyparts_ordenado.head(10))
+print(n_bodyparts_ordenado.tail())
+
+#Se crea el diagrama de caja y bigotes para la variable mean_rating.
+df_usuario["mean_rating"].plot(kind="box")
+plt.show()
+
+# Se crea un dataframe con solo 2 columnas, correspondientes a user_id y mean_rating.
+df_usuario_mean_rating = df_usuario[['user_id', 'mean_rating']]
+
+# Se ordenan los valores según la columna mean_rating para identificar los usuarios
+# correspondientes a los valores atípicos inferiores.
+mean_rating_ordenado = df_usuario_mean_rating.sort_values(by='mean_rating', ascending=True)
+print(mean_rating_ordenado.head())
