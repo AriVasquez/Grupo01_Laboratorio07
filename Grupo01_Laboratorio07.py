@@ -95,6 +95,36 @@ print(df_usuario.shape[0])
 print(df_usuario["user_id"].duplicated().sum())
 print(df_usuario.info())
 
+# Punto 2
+# Par 1: 
+r1 = df_usuario["n_goal_general_fitness"].corr(df_usuario["mean_rating"])
+plt.figure()
+plt.scatter(df_usuario["n_goal_general_fitness"], df_usuario["mean_rating"])
+plt.xlabel("Número de registros con objetivo general fitness")
+plt.ylabel("Rating promedio del usuario")
+plt.title("Objetivo general fitness vs Rating (r = " + str(round(r1, 3)) + ")")
+plt.show()
+print("Correlación n_goal_general_fitness & mean_rating:", r1)
+
+# Par 2:
+r2 = df_usuario["n_bodyparts"].corr(df_usuario["mean_rating"])
+plt.figure()
+plt.scatter(df_usuario["n_bodyparts"], df_usuario["mean_rating"])
+plt.xlabel("Número de partes del cuerpo distintas")
+plt.ylabel("Rating promedio del usuario")
+plt.title("Diversidad del entrenamiento vs Rating (r = " + str(round(r2, 3)) + ")")
+plt.show()
+print("Correlación n_bodyparts & mean_rating:", r2)
+
+# Par 3:
+r3 = df_usuario["age"].corr(df_usuario["n_bodyparts"])
+plt.figure()
+plt.scatter(df_usuario["age"], df_usuario["n_bodyparts"])
+plt.xlabel("Edad del usuario (años)")
+plt.ylabel("Número de partes del cuerpo distintas")
+plt.title("Edad vs diversidad del entrenamiento (r = " + str(round(r3, 3)) + ")")
+plt.show()
+print("Correlación age & n_bodyparts:", r3)
 
 # PUNTO 3
 
@@ -132,3 +162,33 @@ print(df_usuario["mean_rating"].corr(df_usuario["n_goal_general_fitness"]))
 print(df_usuario["mean_rating"].corr(df_usuario["n_equipment"]))
 # n_equipment y n_goal_general_fitness
 print(df_usuario["n_equipment"].corr(df_usuario["n_goal_general_fitness"]))
+
+# PUNTO 5
+
+# Seleccionamos endurance como tercera variable.
+variables = df_usuario[[
+    "share_general_fitness",
+    "mean_rating",
+    "share_endurance"
+]].dropna()
+
+# Calculamos las correlaciones de Pearson.
+correlaciones = variables.corr()
+
+r_xy = correlaciones.loc["share_general_fitness", "mean_rating"]
+r_xz = correlaciones.loc["share_general_fitness", "share_endurance"]
+r_yz = correlaciones.loc["mean_rating", "share_endurance"]
+
+# Calculamos la correlacion parcial controlando endurance.
+r_parcial = (r_xy - r_xz * r_yz) / np.sqrt(
+    (1 - r_xz**2) * (1 - r_yz**2)
+)
+
+# Mostramos los resultados en un solo print.
+print(
+    "PUNTO 5\n",
+    "Correlacion original:", round(r_xy, 3),
+    "\nCorrelacion general_fitness y endurance:", round(r_xz, 3),
+    "\nCorrelacion endurance y rating:", round(r_yz, 3),
+    "\nCorrelacion parcial:", round(r_parcial, 3)
+)
