@@ -122,3 +122,7 @@ df_usuario_mean_rating = df_usuario[['user_id', 'mean_rating']]
 # correspondientes a los valores atípicos inferiores.
 mean_rating_ordenado = df_usuario_mean_rating.sort_values(by='mean_rating', ascending=True)
 print(mean_rating_ordenado.head())
+
+# PUNTO 4
+
+print(df_usuario["mean_rating"].corr(df_usuario["n_goal_general_fitness"]))
